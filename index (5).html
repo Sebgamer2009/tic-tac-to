@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      border-collapse: collapse;
+      margin: auto;
+    }
+
+    td {
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+      text-align: center;
+      font-size: 36px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tic-Tac-Toe</h1>
+  <table id="board">
+    <tr>
+      <td id="cell_0"></td>
+      <td id="cell_1"></td>
+      <td id="cell_2"></td>
+    </tr>
+    <tr>
+      <td id="cell_3"></td>
+      <td id="cell_4"></td>
+      <td id="cell_5"></td>
+    </tr>
+    <tr>
+      <td id="cell_6"></td>
+      <td id="cell_7"></td>
+      <td id="cell_8"></td>
+    </tr>
+  </table>
+  <script>
+    // Initialize the board and the turn
+    var board = ["", "", "", "", "", "", "", "", ""];
+    var turn = "X";
+
+    // Add event listeners to each cell
+    for (var i = 0; i < 9; i++) {
+      var cell = document.getElementById("cell_" + i);
+      cell.addEventListener("click", function() {
+        // Get the index of the clicked cell
+        var index = parseInt(this.id.split("_")[1]);
+
+        // Check if the cell is empty and the game is not over
+        if (board[index] == "" && !isGameOver()) {
+          // Mark the cell with the current turn
+          board[index] = turn;
+          this.innerHTML = turn;
+
+          // Switch the turn
+          turn = turn == "X" ? "O" : "X";
+        }
+      });
+    }
+
+    // Check if the game is over
+    function isGameOver() {
+      // Check for horizontal, vertical, and diagonal wins
+      var lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        var a = board[line[0]];
+        var b = board[line[1]];
+        var c = board[line[2]];
+
+        // If all three cells are the same and not empty, declare the winner
+        if (a == b && b == c && a != "") {
+          alert(a + " wins!");
+          return true;
+        }
+      }
+
+      // Check for a tie
+      var isFull = true;
+      for (var i = 0; i < 9; i++) {
+        if (board[i] == "") {
+          isFull = false;
+          break;
+        }
+      }
+
+      if (isFull) {
+        alert("It's a tie!");
+        return true;
+      }
+
+      // Otherwise, the game is not over
+      return false;
+    }
+  </script>
+</body>
+</html>
